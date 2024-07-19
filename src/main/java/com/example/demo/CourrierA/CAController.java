@@ -1,12 +1,14 @@
 package com.example.demo.CourrierA;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(path = "CA")
+@Controller
+@RequestMapping(path = "ca")
 public class CAController {
 
     private final CAService caService;
@@ -16,9 +18,13 @@ public class CAController {
         this.caService = caService;
     }
 
-    @GetMapping
-    public List<CAModel> getCA(){
-        return caService.getCA();
+    @GetMapping("/tablea")
+    public String getCA(Model model){
+        List<CAModel> ca = caService.getCA();
+        model.addAttribute("all", ca);
+        List<CAModel> c = caService.getCA();
+        model.addAttribute("allca", c);
+        return "tableca";
     }
 
     @PutMapping

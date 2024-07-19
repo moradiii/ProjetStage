@@ -2,12 +2,13 @@ package com.example.demo.User;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path = "user")
 public class UserController {
 
@@ -41,8 +42,34 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getloginpage(){
+    public String showLoginPage() {
         return "loginpage";
+    }
+
+    @PostMapping("/login")
+    public String authenticateUser(@RequestParam String email, @RequestParam String pwd, Model model, HttpSession session) {
+        UserModel user = userService.authenticate(email, pwd);
+        if (user != null) {
+            session.setAttribute("authUsername", user.getUsername());
+            session.setAttribute("authId", user.getId());
+            model.addAttribute("authUser", user);
+
+            Long roleId = user.getRid();
+            if (roleId != null) {
+                if (roleId.equals(1L)) {
+                    return "redirect:/ca/tablea"; // Redirect for admin
+                } else if (roleId.equals(2L)) {
+                    return "redirect:/manager/dashboard"; // Redirect for manager
+                } else if (roleId.equals(3L)) {
+                    return "redirect:/employee/dashboard"; // Redirect for employee
+                } else if (roleId.equals(4L)) {
+                    return "redirect:/user/dashboard"; // Redirect for general user
+                }
+            }
+        } else {
+            model.addAttribute("error", "Invalid email or password");
+        }
+        return "loginpage"; // Redirect back to the login page with an error message
     }
 
 }
