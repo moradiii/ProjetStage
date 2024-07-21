@@ -22,25 +22,31 @@ public class CAController {
     public String getCA(Model model){
         List<CAModel> ca = caService.getCA();
         model.addAttribute("all", ca);
-        List<CAModel> c = caService.getCA();
-        model.addAttribute("allca", c);
         return "tableca";
     }
 
-    @PutMapping
-    public void registerNewCA(@RequestBody CAModel ca){
+    @PostMapping("/insertca")
+    public String registerNewCA(@ModelAttribute CAModel ca) {
         caService.addNewCA(ca);
+        return "redirect:/ca/tablea";
     }
 
-    @DeleteMapping(path = "{caId}")
-    public void deleteCA(@PathVariable("caId") Long caId){
-        caService.deleteCA(caId);
+
+    @PostMapping("/deleteca")
+    public String deleteCA(@RequestParam("caId") Long caId, Model model) {
+        boolean isdeleted = false;
+        try {
+            caService.deleteCA(caId);
+            model.addAttribute("isdeleted", isdeleted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/ca/tablea";
     }
 
-    @PutMapping(path = "{caId}")
-    public void updateCA(@PathVariable("caId") Long userId,
-                         @RequestParam(required = false) String type,
-                         @RequestParam(required = false) Long num){
-        caService.updateCA(userId, type, num);
+    @PutMapping("/updateca")
+    public String updateCA(@ModelAttribute CAModel ca, @RequestParam Long caid){
+        caService.updateCA(ca.getId(), String.valueOf(ca), caid);
+        return "redirect:/ca/tablea";
     }
 }

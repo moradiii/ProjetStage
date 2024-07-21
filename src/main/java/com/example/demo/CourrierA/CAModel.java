@@ -75,6 +75,7 @@ public class CAModel {
         this.updated = updated;
     }
 
+
     @Override
     public String toString() {
         return "CAModel{" +
