@@ -14,5 +14,5 @@ public interface CARepository extends JpaRepository<CAModel, Long> {
     Optional<CAModel> findByType(String type);
 
     @Query("SELECT u FROM CAModel u WHERE u.num = :num")
-    Optional<CAModel> findeByNumber(Long num);
+    Optional<CAModel> findeByNumber(long num);
 }

@@ -3,6 +3,8 @@ package com.example.demo.CourrierA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,34 +14,38 @@ import java.util.Optional;
 public class CAService {
 
     private final CARepository caRepository;
+    private static final Logger logger = LoggerFactory.getLogger(CAService.class);
 
     @Autowired
-    public CAService(CARepository caRepository){
+    public CAService(CARepository caRepository) {
         this.caRepository = caRepository;
     }
 
-    public List<CAModel> getCA(){
+    public List<CAModel> getCA() {
         return caRepository.findAll();
     }
 
-    public void addNewCA(CAModel ca){
-        Optional<CAModel> CAOptional = caRepository.findeByNumber(ca.getNum());
-        if(CAOptional.isPresent()){
-            throw new IllegalStateException("Courrier already exist");
+    public boolean addNewCA(CAModel ca) {
+        boolean res = false;
+        try {
+            caRepository.save(ca);
+            res = true;
+        } catch (Exception e) {
+            logger.error("Error adding new CA: ", e);
         }
-        caRepository.save(ca);
+        return res;
     }
 
-    public void deleteCA(Long caId){
-        boolean exist = caRepository.existsById(caId);
-        if (!exist){
+    public void deleteCA(long caId) {
+        boolean exists = caRepository.existsById(caId);
+        if (!exists) {
             throw new IllegalStateException("Courrier with id " + caId + " does not exist");
         }
         caRepository.deleteById(caId);
     }
 
     @Transactional
-    public void updateCA(Long caId, String type, Long num) {
+    public void updateCA(long caId, String type, long num) {
         CAModel ca = caRepository.findById(caId)
                 .orElseThrow(() -> new IllegalStateException(
                         "Courrier with id " + caId + " does not exist"));
@@ -47,16 +53,23 @@ public class CAService {
         if (type != null && type.length() > 0 && !Objects.equals(ca.getType(), type)) {
             Optional<CAModel> caOptional = caRepository.findByType(type);
             if (caOptional.isPresent()) {
-                throw new IllegalStateException("name taken");
+                throw new IllegalStateException("Type taken");
             }
             ca.setType(type);
         }
-        if (num != null && num.longValue() > 0 && !Objects.equals(ca.getNum(), num)) {
+
+        if (num > 0 && !Objects.equals(ca.getNum(), num)) {
             Optional<CAModel> caOptional = caRepository.findeByNumber(num);
             if (caOptional.isPresent()) {
-                throw new IllegalStateException("Email taken");
+                throw new IllegalStateException("Number taken");
             }
             ca.setNum(num);
         }
+    }
+
+    public void updateCA(CAModel ca, long caId) {
+        CAModel ca = caRepository.findById(caId)
+                .orElseThrow(() -> new IllegalStateException(
+                        "Courrier with id " + caId + " does not exist"));
     }
 }

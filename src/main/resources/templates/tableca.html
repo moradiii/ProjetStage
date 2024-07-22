@@ -5,7 +5,7 @@
     <title>List of Mails</title>
     <link rel="stylesheet" type="text/css" href="/static/css/acceuil.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixion@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Font+Awesome">
@@ -23,18 +23,18 @@
             <th>Action</th>
             <th>ID</th>
             <th>Type</th>
-            <th onclick="sortByStock()">Date<i class="fa-solid fa-sort"></i></th>
-            <th onclick="sortByStock()">Date BO<i class="fa-solid fa-sort"></i></th>
+            <th>Date</th>
+            <th>Date BO</th>
             <th>Objet</th>
             <th>Affectations</th>
             <th>Destinataire</th>
-            <th onclick="sortByStock()">Numero<i class="fa-solid fa-sort"></i></th>
-            <th onclick="sortByStock()">Numero BO<i class="fa-solid fa-sort"></i></th>
+            <th>Numero</th>
+            <th>Numero BO</th>
             <th>Origin</th>
             <th>Observation</th>
             <th>Pieces Jointes</th>
-            <th onclick="sortByStock()">Created at<i class="fa-solid fa-sort"></i></th>
-            <th onclick="sortByStock()">Updated at<i class="fa-solid fa-sort"></i></th>
+            <th>Created at</th>
+            <th>Updated at</th>
         </tr>
         </thead>
         <tbody>
@@ -59,12 +59,12 @@
             <td><input type="date" name="date" th:value="${courrier.date}"></td>
             <td><input type="date" name="datebo" th:value="${courrier.datebo}"></td>
             <td><input type="text" name="objet" th:value="${courrier.objet}"></td>
-            <td><input type="text" name="affectations" th:value="${courrier.affet}"></td>
-            <td><input type="text" name="destinataire" th:value="${courrier.dest}"></td>
-            <td><input type="number" name="numero" th:value="${courrier.num}"></td>
+            <td><input type="text" name="affet" th:value="${courrier.affet}"></td>
+            <td><input type="text" name="dest" th:value="${courrier.dest}"></td>
+            <td><input type="number" name="num" th:value="${courrier.num}"></td>
             <td><input type="number" name="numbo" th:value="${courrier.numbo}"></td>
             <td><input type="text" name="origin" th:value="${courrier.origin}"></td>
-            <td><textarea name="obs" rows="3" cols="20" th:value="${courrier.obs}"></textarea></td>
+            <td><textarea name="obs" rows="3" cols="20" th:text="${courrier.obs}"></textarea></td>
             <td><input type="text" name="pj" th:value="${courrier.pj}"></td>
             <td><input type="datetime-local" name="created" th:value="${courrier.created}"></td>
             <td><input type="datetime-local" name="updated" th:value="${courrier.updated}"></td>
@@ -93,28 +93,30 @@
         </thead>
         <tbody>
         <tr>
-            <td>
-                <form th:action="@{/ca/insertca}" method="post">
+            <form th:action="@{/ca/insertca}" method="post">
+                <td>
                     <button type="submit">Insert</button>
-                </form>
-            </td>
-            <td></td>
-            <td>
-                <select name="type">
-                    <option disabled selected>Select Type</option>
-                    <option th:each="type : ${allca}" th:value="${type.id}" th:text="${type.type}"></option>
-                </select>
-            </td>
-            <td><input type="date" name="date"></td>
-            <td><input type="date" name="datebo"></td>
-            <td><input type="text" name="objet"></td>
-            <td><input type="text" name="affectations"></td>
-            <td><input type="text" name="destinataire"></td>
-            <td><input type="number" name="numero"></td>
-            <td><input type="number" name="numbo"></td>
-            <td><input type="text" name="origin"></td>
-            <td><textarea name="obs" rows="3" cols="20"></textarea></td>
-            <td><input type="text" name="pj"></td>
+                </td>
+                <td></td>
+                <td>
+                    <select name="type">
+                        <option disabled selected>Select Type</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </td>
+                <td><input type="date" name="date"></td>
+                <td><input type="date" name="datebo"></td>
+                <td><input type="text" name="objet"></td>
+                <td><input type="text" name="affet"></td>
+                <td><input type="text" name="dest"></td>
+                <td><input type="number" name="num"></td>
+                <td><input type="number" name="numbo"></td>
+                <td><input type="text" name="origin"></td>
+                <td><textarea name="obs" rows="3" cols="20"></textarea></td>
+                <td><input type="text" name="pj"></td>
+                <td><input type="datetime-local" name="created"></td>
+                <td><input type="datetime-local" name="updated"></td>
+            </form>
         </tr>
         </tbody>
     </table>

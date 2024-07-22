@@ -11,7 +11,7 @@ public class CAModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "Type")
     private String type;
     @Column(name = "Date")
@@ -27,7 +27,7 @@ public class CAModel {
     @Column(name = "Numero")
     private long num;
     @Column(name = "NumeroBO")
-    private Long numbo;
+    private long numbo;
     @Column(name = "Origin")
     private String origin;
     @Column(name = "Observation")
@@ -42,7 +42,7 @@ public class CAModel {
     public CAModel() {
     }
 
-    public CAModel(Long id, String type, LocalDate date, LocalDate datebo, String objet, String affet, String dest, long num, Long numbo, String origin, String obs, String pj, LocalDateTime created, LocalDateTime updated) {
+    public CAModel(long id, String type, LocalDate date, LocalDate datebo, String objet, String affet, String dest, long num, long numbo, String origin, String obs, String pj, LocalDateTime created, LocalDateTime updated) {
         this.id = id;
         this.type = type;
         this.date = date;
@@ -59,7 +59,7 @@ public class CAModel {
         this.updated = updated;
     }
 
-    public CAModel(String type, LocalDate date, LocalDate datebo, String objet, String affet, String dest, long num, Long numbo, String origin, String obs, String pj, LocalDateTime created, LocalDateTime updated) {
+    public CAModel(String type, LocalDate date, LocalDate datebo, String objet, String affet, String dest, long num, long numbo, String origin, String obs, String pj, LocalDateTime created, LocalDateTime updated) {
         this.type = type;
         this.date = date;
         this.datebo = datebo;
@@ -74,7 +74,6 @@ public class CAModel {
         this.created = created;
         this.updated = updated;
     }
-
 
     @Override
     public String toString() {
@@ -96,10 +95,10 @@ public class CAModel {
                 '}';
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getType() {
@@ -144,10 +143,10 @@ public class CAModel {
     public void setNum(long num) {
         this.num = num;
     }
-    public Long getNumbo() {
+    public long getNumbo() {
         return numbo;
     }
-    public void setNumbo(Long numbo) {
+    public void setNumbo(long numbo) {
         this.numbo = numbo;
     }
     public String getOrigin() {
